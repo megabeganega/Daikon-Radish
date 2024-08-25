@@ -1,11 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class PressKeyCloseWindow : MonoBehaviour
 {
     #region Variables
+    public static Action OnWindowClosed;
+
     public GameObject Instruction;
     public GameObject AnimeObject;
     public GameObject ThisTrigger;
@@ -49,6 +51,7 @@ public class PressKeyCloseWindow : MonoBehaviour
                 AnimeObject.GetComponent<Animator>().Play("WindowClose");
                 ThisTrigger.SetActive(false);
                 Action = false;
+                OnWindowClosed?.Invoke();
             }
         }
 
