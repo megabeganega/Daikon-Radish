@@ -6,20 +6,21 @@ using UnityEngine;
 public class PressKeyCloseWindow : MonoBehaviour
 {
     #region Variables
+    // event
     public static Action OnWindowClosed;
 
     public GameObject Instruction;
     public GameObject AnimeObject;
     public GameObject ThisTrigger;
     public bool Action = false;
+    public static bool AllWindowsClosed = true;
     #endregion 
 
-    #region instruction ui
+    #region Unity Method
     //hidden mesh triggers instruction ui when player enters proximity of door
     void Start()
     {
         Instruction.SetActive(false);
-
     }
 
     void OnTriggerEnter(Collider collision)
@@ -54,7 +55,6 @@ public class PressKeyCloseWindow : MonoBehaviour
                 OnWindowClosed?.Invoke();
             }
         }
-
     }
     #endregion 
 }
