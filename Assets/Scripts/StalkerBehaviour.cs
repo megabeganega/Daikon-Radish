@@ -17,6 +17,7 @@ public class StalkerBehaviour : MonoBehaviour
     private bool StalkerAtWindow;
     private bool EndOfStageOne;
     private bool startStageOne; // will call for the enemy to start teleporting
+    public static bool stageonecommence;
     #endregion
 
     #region Unity Methods
@@ -25,6 +26,7 @@ public class StalkerBehaviour : MonoBehaviour
         AllWindowsClosed = false;
         StalkerAtWindow = false;
         EndOfStageOne = false;
+        stageonecommence = false;
     }
 
     // subscribing to events
@@ -47,9 +49,9 @@ public class StalkerBehaviour : MonoBehaviour
             return;
         }
 
-        Debug.Log(timeRemaining);
+      //  Debug.Log(timeRemaining);
         if(timeRemaining >= 0){return;} // returns if fisrt stage is still active
-        Debug.Log(timeRemaining);
+    //    Debug.Log(timeRemaining);
         EndFirstStage();
     }
     #endregion
@@ -60,11 +62,9 @@ public class StalkerBehaviour : MonoBehaviour
         startStageOne = true;
         AllWindowsClosed = true;
         StalkerAtWindow = false;
+        stageonecommence = true;
     }
 
-    private void WindowsClosed(){
-
-    }
 
     private void EndFirstStage(){
         Debug.Log("End First Stage");
@@ -73,29 +73,34 @@ public class StalkerBehaviour : MonoBehaviour
         AllWindowsClosed = true;
         StalkerAtWindow = false;
         StopCoroutine("TeleportToRandomWindowRoutine");
+        stageonecommence = false;
     }
 
     private IEnumerator TeleportToRandomWindowRoutine(){
+        Debug.Log("CoroutineStart");
         AllWindowsClosed = false;
         StalkerAtWindow = true;
         transform.position = stalkerPositions[Random.Range(0,8)];
         //window open in StalkerWindowOpen.cs
-        yield return new WaitForSeconds(5); 
+        Debug.Log("Waiting for 10 seconds");
+        yield return new WaitForSeconds(10);
         Debug.Log(AllWindowsClosed);
-        if(AllWindowsClosed == false){
+        if(IsEnemyScared.isEnemyScared == true){
+            Debug.Log("Stop All Coroutines");
+            yield break;
+        }
             //jumpinwindowlogic   
             Debug.Log("Stalker in Building + Jumpscares");
             //Loads Jumpscare Scene
             SceneManager.LoadScene(scenename);
+        
         }
-    
     }
     
    
    // {
         //Jumpscare Plays    
     
-}   
 
 #endregion
 

@@ -11,10 +11,16 @@ public class StalkerWindowOpen : MonoBehaviour
     public GameObject AnimeObject;
     public GameObject ThisTrigger;
     public bool StalkerAction = false;
+    public bool WindowOpened = true;
     #endregion 
 
     #region instruction ui
     //hidden mesh triggers instruction ui when player enters proximity of door
+
+    public void Start(){
+        WindowOpened = true;
+        Debug.Log(WindowOpened);
+    }
 
     void OnTriggerEnter(Collider collision)
     {
@@ -29,12 +35,14 @@ public class StalkerWindowOpen : MonoBehaviour
 
     #region window close
     //Press E = Window close
-    private void OpenWindow()
+    public void OpenWindow()
     {
+        WindowOpened = true; 
         AnimeObject.GetComponent<Animator>().Play("WindowOpen");
-        ThisTrigger.SetActive(false);
+        ThisTrigger.SetActive(true);
         StalkerAction = false;      
         ClosedWindowCounter.current.DecreaseCounter();
+        Debug.Log(WindowOpened);
     }
     #endregion 
 }
