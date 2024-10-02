@@ -88,6 +88,7 @@ public class StalkerBehaviour : MonoBehaviour
         Debug.Log(AllWindowsClosed);
         if(AllWindowsClosed == true){
             Debug.Log("Stop All Coroutines");
+            //resets functions
             yield break;
         }
             //jumpinwindowlogic   
