@@ -78,14 +78,15 @@ public class StalkerBehaviour : MonoBehaviour
 
     private IEnumerator TeleportToRandomWindowRoutine(){
         Debug.Log("CoroutineStart");
-        AllWindowsClosed = false;
         StalkerAtWindow = true;
+        yield return new WaitForSeconds(10);
+        AllWindowsClosed = false;   
         transform.position = stalkerPositions[Random.Range(0,8)];
         //window open in StalkerWindowOpen.cs
         Debug.Log("Waiting for 10 seconds");
         yield return new WaitForSeconds(10);
         Debug.Log(AllWindowsClosed);
-        if(IsEnemyScared.isEnemyScared == true){
+        if(AllWindowsClosed == true){
             Debug.Log("Stop All Coroutines");
             yield break;
         }

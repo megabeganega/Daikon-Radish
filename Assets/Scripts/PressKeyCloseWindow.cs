@@ -51,7 +51,6 @@ public class PressKeyCloseWindow : MonoBehaviour
         Instruction.SetActive(false);
         AnimeObject.GetComponent<Animator>().Play("WindowClose");
         ThisTrigger.SetActive(true);
-        Debug.Log("Trigger is true");
         Action = false;
         stalkerWindowOpen.WindowOpened = false; 
         
@@ -61,8 +60,8 @@ public class PressKeyCloseWindow : MonoBehaviour
         if(!wasinvoked){
         OnWindowClosed?.Invoke(); 
         wasinvoked = true;}
-        if(stalkerWindowOpen.WindowOpened == true){
-           wasinvoked = false;
+        if(stalkerWindowOpen.WindowOpened){
+           OnWindowClosed?.Invoke();
         }
         
     }

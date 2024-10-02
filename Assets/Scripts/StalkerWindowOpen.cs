@@ -18,8 +18,8 @@ public class StalkerWindowOpen : MonoBehaviour
     //hidden mesh triggers instruction ui when player enters proximity of door
 
     public void Start(){
-        WindowOpened = true;
-        Debug.Log(WindowOpened);
+       // WindowOpened = true;
+        WindowOpened = false;
     }
 
     void OnTriggerEnter(Collider collision)
@@ -42,7 +42,6 @@ public class StalkerWindowOpen : MonoBehaviour
         ThisTrigger.SetActive(true);
         StalkerAction = false;      
         ClosedWindowCounter.current.DecreaseCounter();
-        Debug.Log(WindowOpened);
     }
     #endregion 
 }
