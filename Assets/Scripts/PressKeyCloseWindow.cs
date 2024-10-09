@@ -32,7 +32,7 @@ public class PressKeyCloseWindow : MonoBehaviour
     void OnTriggerEnter(Collider collision)
     {
         //Collider detects Player
-        if (collision.transform.tag == "Player")
+        if (collision.transform.tag == "Reach")
         {
             Instruction.SetActive(true);
             Action = true;

@@ -5,6 +5,7 @@ using EZCameraShake;
 
 public class GunSystem : MonoBehaviour
 {
+    #region variables
     //Gun stats
     public int damage;
     public float timeBetweenShooting, spread, range, reloadTime, timeBetweenShots;
@@ -30,8 +31,9 @@ public class GunSystem : MonoBehaviour
     public float Magnitude = 2f;
     public float Roughness = 10f;
     public float FadeOutTime = 5f;
+    #endregion
 
-
+    #region Methods
     private void Awake()
     {
         bulletsLeft = magazineSize;
@@ -118,4 +120,5 @@ public class GunSystem : MonoBehaviour
         bulletsLeft = magazineSize;
         reloading = false;
     }
+    #endregion
 }

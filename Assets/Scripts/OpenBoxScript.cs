@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class OpenBoxScript : MonoBehaviour
 {
+    #region Variables
     public Animator boxOB;
+    //GameObject needed to Unlock Box
     public GameObject keyOBNeeded;
     public GameObject openText;
     public GameObject keyMissingText;
@@ -13,9 +15,10 @@ public class OpenBoxScript : MonoBehaviour
 
     public bool inReach;
     public bool isOpen;
+    #endregion
 
 
-
+    #region Start
     void Start()
     {
         inReach = false;
@@ -23,8 +26,9 @@ public class OpenBoxScript : MonoBehaviour
         keyMissingText.SetActive(false);
         ShowGun = false;
     }
+    #endregion
 
-
+    #region ColliderDetection
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Reach")
@@ -44,10 +48,12 @@ public class OpenBoxScript : MonoBehaviour
             keyMissingText.SetActive(false);
         }
     }
+    #endregion
 
-
+    #region Update
     void Update()
     {
+        //unlocks
         if (keyOBNeeded.activeInHierarchy == true && inReach && Input.GetButtonDown("Interact"))
         {
             keyOBNeeded.SetActive(false);
@@ -58,17 +64,18 @@ public class OpenBoxScript : MonoBehaviour
             isOpen = true;
             ShowGun = true;
         }
-
+        //doesn't unlock, key is missing
         else if (keyOBNeeded.activeInHierarchy == false && inReach && Input.GetButtonDown("Interact"))
         {
             openText.SetActive(false);
             keyMissingText.SetActive(true);
         }
-
+        //Script is disabled + Collider false
         if(isOpen)
         {
             boxOB.GetComponent<BoxCollider>().enabled = false;
             boxOB.GetComponent<OpenBoxScript>().enabled = false;
         }
     }
+    #endregion
 }

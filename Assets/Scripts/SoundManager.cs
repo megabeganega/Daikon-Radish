@@ -5,8 +5,11 @@ using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
 {
+    #region Variables
     [SerializeField] Slider volumeSlider;
+    #endregion
     // Start is called before the first frame update
+    #region Methods
     void Start()
     {
         //set music volume to 100% with no previous data
@@ -40,4 +43,5 @@ public class SoundManager : MonoBehaviour
         //saves player volume preference
         PlayerPrefs.SetFloat("Volume", volumeSlider.value);
     }
+    #endregion
 }

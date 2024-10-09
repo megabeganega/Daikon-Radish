@@ -10,6 +10,7 @@ public class ShowGun : MonoBehaviour
 
     void Start()
     {
+        //sets both the GunToBePickedUp and Gun held in player POV to false, aswell as the BulletCount for the gun
         pickUpSystem.ItemOnPlayer.SetActive(false);
         gun.SetActive(false);
         pickUpSystem.BulletCount.SetActive(false);
@@ -21,6 +22,7 @@ public class ShowGun : MonoBehaviour
         if (openBoxScript.ShowGun == true)
         {
             gun.SetActive(true);
+            //If Player is holding Gun, the GunToBePickedUp disappears
             if (pickUpSystem.ItemOnPlayer.activeSelf == true)
             {
                 gun.SetActive(false);
