@@ -60,6 +60,7 @@ public class PressKeyCloseWindow : MonoBehaviour
         if(!wasinvoked){
         OnWindowClosed?.Invoke(); 
         wasinvoked = true;}
+        //If player closes window stalker opened after all windows closed, closedwindowcounter adds by 1
         if(stalkerWindowOpen.WindowOpened){
            OnWindowClosed?.Invoke();
         }

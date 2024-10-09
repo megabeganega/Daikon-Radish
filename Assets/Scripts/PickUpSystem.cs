@@ -7,18 +7,20 @@ public class PickUpSystem : MonoBehaviour
     #region Variables
     public GameObject PickupText;
     public GameObject ItemOnPlayer;
+    public GameObject BulletCount;
     #endregion
     // Start is called before the first frame update
     #region Methods
     void Start()
     {
+        BulletCount.SetActive(false);
         ItemOnPlayer.SetActive(false);
         PickupText.SetActive(false);
     }
 
     private void  OnTriggerStay(Collider other)
     {
-        if(other.gameObject.tag == "Player")
+        if(other.gameObject.tag == "Reach")
         {
             //enters trigger shows instructions
             PickupText.SetActive(true);
@@ -28,6 +30,7 @@ public class PickUpSystem : MonoBehaviour
                 this.gameObject.SetActive(false);
                 ItemOnPlayer.SetActive(true);
                 PickupText.SetActive(false);
+                BulletCount.SetActive(true);
             }
         }
     } 
