@@ -18,7 +18,7 @@ public class PickUpSystem : MonoBehaviour
         PickupText.SetActive(false);
     }
 
-    private void  OnTriggerStay(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if(other.gameObject.tag == "Reach")
         {
