@@ -2,24 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LookUnderBed : MonoBehaviour
+public class LookUnderSofa : MonoBehaviour
 {
     public GameObject LookUnderBedInstruction;
     public GameObject CamUnderBed;
     public GameObject CamBehindPainting;
     public GameObject CamUnderCouch;
     public GameObject PlayerCamera;
-    public int Manager;
     public bool ReachBed;
     public GameObject Player;
     public GameObject Key;
     public GameObject GrabKeyAndExitInstruction;
     private bool ExitBed;
-    public GameObject BedTrigger;
+    public GameObject CouchTrigger;
     // Start is called before the first frame update
 
    [SerializeField] private Animator FadeInOut;
-    [SerializeField] private Animator Bedani;
+    [SerializeField] private Animator Couchani;
     void Start()
     {
         Key.SetActive(false);
@@ -97,17 +96,17 @@ public class LookUnderBed : MonoBehaviour
     {
         if  (ReachBed && Input.GetKey(KeyCode.E))
         {
-            StartCoroutine(GoUnderBed());
+            StartCoroutine(GoUnderCouch());
         }
         if  (!PlayerCamera.activeSelf && ExitBed == true && Input.GetKey(KeyCode.E))
         {
-            StartCoroutine(GetKeyGetOut());
+            StartCoroutine(GetKeyGetOutCouch());
             return;
             
         }
     }
 
-    private IEnumerator GoUnderBed()
+    private IEnumerator GoUnderCouch()
     {
         //animation fade in fade out
         if (!ExitBed) {
@@ -115,9 +114,9 @@ public class LookUnderBed : MonoBehaviour
             FadeInOut.GetComponent<Animator>().Play("DarknessToLightExitBed");
             //waits 1 second otherwise cam change before animation
             LookUnderBedInstruction.SetActive(false);
-            CamUnderBedActive();
+            CamUnderCouchActive();
             yield return new WaitForSeconds(1);
-            Bedani.GetComponent<Animator>().Play("LiftBed");
+            Couchani.GetComponent<Animator>().Play("LiftSofa");
             GrabKeyAndExitInstruction.SetActive(true);
             ExitBed = true;
             //break
@@ -125,7 +124,7 @@ public class LookUnderBed : MonoBehaviour
         }
     }
 
-    private IEnumerator GetKeyGetOut()
+    private IEnumerator GetKeyGetOutCouch()
     {
         Player.SetActive(true);
         FadeInOut.GetComponent<Animator>().Play("DarknessToLightExitBed2");
@@ -136,7 +135,7 @@ public class LookUnderBed : MonoBehaviour
         GrabKeyAndExitInstruction.SetActive(false);
         Key.SetActive(true);
         GrabKeyAndExitInstruction.SetActive(false);
-        Bedani.GetComponent<Animator>().Play("BedDown");
+        Couchani.GetComponent<Animator>().Play("SofaDown");
         yield break;
     }
 }
