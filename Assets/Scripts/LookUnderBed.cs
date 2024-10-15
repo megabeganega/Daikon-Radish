@@ -4,24 +4,36 @@ using UnityEngine;
 
 public class LookUnderBed : MonoBehaviour
 {
+    #region Variables
     public GameObject LookUnderBedInstruction;
     public GameObject CamUnderBed;
     public GameObject CamBehindPainting;
     public GameObject CamUnderCouch;
     public GameObject PlayerCamera;
-    public int Manager;
     public bool ReachBed;
     public GameObject Player;
     public GameObject Key;
     public GameObject GrabKeyAndExitInstruction;
     private bool ExitBed;
-    public GameObject BedTrigger;
+    public GameObject flashlight;
+    //Bool Represents if Key Is under object or not
+    private bool KeyToBePickedUp;
+    [SerializeField] GameObject NoKeyToBePickedUpInstruction;
     // Start is called before the first frame update
+    private bool SecondCoroutineNoKey;
+    private bool SecondCoroutineKey;
 
-   [SerializeField] private Animator FadeInOut;
+    [SerializeField] private Animator FadeInOut;
     [SerializeField] private Animator Bedani;
+    #endregion
+    #region Methods
     void Start()
     {
+        SecondCoroutineKey = false;
+        SecondCoroutineNoKey = false;
+        KeyToBePickedUp = false;
+        NoKeyToBePickedUpInstruction.SetActive(false);
+        flashlight.SetActive(false);
         Key.SetActive(false);
         ExitBed = false;
         GrabKeyAndExitInstruction.SetActive(false);
@@ -32,12 +44,16 @@ public class LookUnderBed : MonoBehaviour
         ReachBed = false;
         CamBehindPainting.SetActive(false);
         CamUnderCouch.SetActive(false);
-
     }
 
 
     private void OnTriggerStay(Collider other)
     {
+        //KeyToBePickedUp = true, if there is KeyToBePickedUp
+        if (other.gameObject.tag == "KeyToBePickedUp")
+        {
+            KeyToBePickedUp = true;
+        }
         //Prevents Player from lifting object if they already have key
         if (!ExitBed && Key.activeSelf == false)
         {
@@ -46,6 +62,18 @@ public class LookUnderBed : MonoBehaviour
                 //enters trigger shows instructions
                 LookUnderBedInstruction.SetActive(true);
                 ReachBed = true;
+                //Coroutine start when ExitBed == false, So Coroutine Can't Be Repeated again
+                if (ExitBed == false && Input.GetKeyDown(KeyCode.E) && !KeyToBePickedUp)
+                {
+                    Debug.Log("GoUnderBedNoKey");
+                    StartCoroutine(GoUnderBedNoKey());
+                }
+                if (ExitBed == false && Input.GetKeyDown(KeyCode.E) && KeyToBePickedUp)
+                {
+                    //Different Coroutine started when there is a Key to be picked up
+                    Debug.Log("GoUnderBedKey");
+                    StartCoroutine(GoUnderBedKey());
+                }
             }
         }
     }
@@ -57,7 +85,7 @@ public class LookUnderBed : MonoBehaviour
         ReachBed = false;
        
     }
-
+    //Appropriate Cameras Set True/False
     void CamUnderBedActive()
     {
         CamUnderBed.SetActive(true);
@@ -90,53 +118,83 @@ public class LookUnderBed : MonoBehaviour
         CamBehindPainting.SetActive(false);
         CamUnderCouch.SetActive(false);
     }
+    #endregion
 
 
-
+    #region Update
     void Update()
     {
-        if  (ReachBed && Input.GetKey(KeyCode.E))
-        {
-            StartCoroutine(GoUnderBed());
-        }
-        if  (!PlayerCamera.activeSelf && ExitBed == true && Input.GetKey(KeyCode.E))
-        {
-            StartCoroutine(GetKeyGetOut());
-            return;
-            
-        }
+        //returns if ExitBed = true Avoids Repeats of the Second Coroutine
+        if (ExitBed) {return;}
+        //GetKeyDown avoids multiple Coroutines from starting
+        if (Input.GetKeyDown(KeyCode.E) && SecondCoroutineNoKey)
+            {
+                StartCoroutine(GetOutBedNoKey());
+            }
+        if (Input.GetKeyDown(KeyCode.E) && SecondCoroutineKey)
+            {
+                StartCoroutine(GetKeyGetOutBed());
+            }
     }
 
-    private IEnumerator GoUnderBed()
+    #endregion
+    #region IEnumerator
+    private IEnumerator GoUnderBedKey()
     {
-        //animation fade in fade out
-        if (!ExitBed) {
-            Player.SetActive(false);
-            FadeInOut.GetComponent<Animator>().Play("DarknessToLightExitBed");
-            //waits 1 second otherwise cam change before animation
-            LookUnderBedInstruction.SetActive(false);
-            CamUnderBedActive();
-            yield return new WaitForSeconds(1);
-            Bedani.GetComponent<Animator>().Play("LiftBed");
-            GrabKeyAndExitInstruction.SetActive(true);
-            ExitBed = true;
-            //break
-            yield break;
-        }
+        Player.SetActive(false);
+        flashlight.SetActive(true);
+        FadeInOut.GetComponent<Animator>().Play("DarknessToLightExitBed");
+        LookUnderBedInstruction.SetActive(false);
+        GrabKeyAndExitInstruction.SetActive(true);
+        CamUnderBedActive();
+        yield return new WaitForSeconds(1);
+        Bedani.GetComponent<Animator>().Play("LiftBed");
+        SecondCoroutineKey = true;
     }
 
-    private IEnumerator GetKeyGetOut()
+    private IEnumerator GetKeyGetOutBed()
     {
-        Player.SetActive(true);
-        FadeInOut.GetComponent<Animator>().Play("DarknessToLightExitBed2");
-        //PlayerCameraActive();
-        PlayerCamera.SetActive(true);
-        yield return new WaitForSeconds(0.01f);
-        CamUnderBed.SetActive(false);
-        GrabKeyAndExitInstruction.SetActive(false);
+        Debug.Log("GeyKeyGetOutBed");
         Key.SetActive(true);
+        Player.SetActive(true);
+        flashlight.SetActive(false);
+        FadeInOut.GetComponent<Animator>().Play("DarknessToLightExitBed");
         GrabKeyAndExitInstruction.SetActive(false);
+        PlayerCameraActive();
+        yield return new WaitForSeconds(1);
         Bedani.GetComponent<Animator>().Play("BedDown");
-        yield break;
+        ExitBed = true;
     }
+    
+
+    private IEnumerator GoUnderBedNoKey()
+    {
+        Player.SetActive(false);
+        flashlight.SetActive(true);
+        FadeInOut.GetComponent<Animator>().Play("DarknessToLightExitBed");
+        LookUnderBedInstruction.SetActive(false);
+        NoKeyToBePickedUpInstruction.SetActive(true);
+        CamUnderBedActive();
+        yield return new WaitForSeconds(1);
+        Bedani.GetComponent<Animator>().Play("LiftBed");
+        SecondCoroutineNoKey = true;
+    }
+
+    private IEnumerator GetOutBedNoKey()
+    {
+        Debug.Log("GetOutBedNoKey");
+        Player.SetActive(true);
+        flashlight.SetActive(false);
+        FadeInOut.GetComponent<Animator>().Play("DarknessToLightExitBed2");
+        NoKeyToBePickedUpInstruction.SetActive(false);
+        PlayerCameraActive();
+        yield return new WaitForSeconds(1);
+        Bedani.GetComponent<Animator>().Play("BedDown");
+        ExitBed = true;
+        LookUnderBedInstruction.SetActive(false);
+    }
+    
 }
+    #endregion
+
+

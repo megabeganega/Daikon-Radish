@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LookUnderSofa : MonoBehaviour
 {
+    #region Variables
     public GameObject LookUnderBedInstruction;
     public GameObject CamUnderBed;
     public GameObject CamBehindPainting;
@@ -14,13 +15,25 @@ public class LookUnderSofa : MonoBehaviour
     public GameObject Key;
     public GameObject GrabKeyAndExitInstruction;
     private bool ExitBed;
-    public GameObject CouchTrigger;
+    public GameObject flashlight;
+    //Bool Represents if Key Is under object or not
+    private bool KeyToBePickedUp;
+    [SerializeField] GameObject NoKeyToBePickedUpInstruction;
     // Start is called before the first frame update
+    private bool SecondCoroutineNoKey;
+    private bool SecondCoroutineKey;
 
-   [SerializeField] private Animator FadeInOut;
+    [SerializeField] private Animator FadeInOut;
     [SerializeField] private Animator Couchani;
+    #endregion
+    #region Methods
     void Start()
     {
+        SecondCoroutineKey = false;
+        SecondCoroutineNoKey = false;
+        KeyToBePickedUp = false;
+        NoKeyToBePickedUpInstruction.SetActive(false);
+        flashlight.SetActive(false);
         Key.SetActive(false);
         ExitBed = false;
         GrabKeyAndExitInstruction.SetActive(false);
@@ -31,12 +44,16 @@ public class LookUnderSofa : MonoBehaviour
         ReachBed = false;
         CamBehindPainting.SetActive(false);
         CamUnderCouch.SetActive(false);
-
     }
 
 
     private void OnTriggerStay(Collider other)
     {
+        //KeyToBePickedUp = true, if there is KeyToBePickedUp
+        if (other.gameObject.tag == "KeyToBePickedUp")
+        {
+            KeyToBePickedUp = true;
+        }
         //Prevents Player from lifting object if they already have key
         if (!ExitBed && Key.activeSelf == false)
         {
@@ -45,6 +62,18 @@ public class LookUnderSofa : MonoBehaviour
                 //enters trigger shows instructions
                 LookUnderBedInstruction.SetActive(true);
                 ReachBed = true;
+                //Coroutine start when ExitBed == false, So Coroutine Can't Be Repeated again
+                if (ExitBed == false && Input.GetKeyDown(KeyCode.E) && !KeyToBePickedUp)
+                {
+                    Debug.Log("GoUnderSofaNoKey");
+                    StartCoroutine(GoUnderSofaNoKey());
+                }
+                if (ExitBed == false && Input.GetKeyDown(KeyCode.E) && KeyToBePickedUp)
+                {
+                    //Different Coroutine started when there is a Key to be picked up
+                    Debug.Log("GoUnderSofaKey");
+                    StartCoroutine(GoUnderSofaKey());
+                }
             }
         }
     }
@@ -56,7 +85,7 @@ public class LookUnderSofa : MonoBehaviour
         ReachBed = false;
        
     }
-
+    //Appropriate Cameras Set True/False
     void CamUnderBedActive()
     {
         CamUnderBed.SetActive(true);
@@ -89,53 +118,83 @@ public class LookUnderSofa : MonoBehaviour
         CamBehindPainting.SetActive(false);
         CamUnderCouch.SetActive(false);
     }
+    #endregion
 
 
-
+    #region Update
     void Update()
     {
-        if  (ReachBed && Input.GetKey(KeyCode.E))
-        {
-            StartCoroutine(GoUnderCouch());
-        }
-        if  (!PlayerCamera.activeSelf && ExitBed == true && Input.GetKey(KeyCode.E))
-        {
-            StartCoroutine(GetKeyGetOutCouch());
-            return;
-            
-        }
+        //returns if ExitBed = true Avoids Repeats of the Second Coroutine
+        if (ExitBed) {return;}
+        //GetKeyDown avoids multiple Coroutines from starting
+        if (Input.GetKeyDown(KeyCode.E) && SecondCoroutineNoKey)
+            {
+                StartCoroutine(GetOutSofaNoKey());
+            }
+        if (Input.GetKeyDown(KeyCode.E) && SecondCoroutineKey)
+            {
+                StartCoroutine(GetKeyGetOutSofa());
+            }
     }
 
-    private IEnumerator GoUnderCouch()
+    #endregion
+    #region IEnumerator
+    private IEnumerator GoUnderSofaKey()
     {
-        //animation fade in fade out
-        if (!ExitBed) {
-            Player.SetActive(false);
-            FadeInOut.GetComponent<Animator>().Play("DarknessToLightExitBed");
-            //waits 1 second otherwise cam change before animation
-            LookUnderBedInstruction.SetActive(false);
-            CamUnderCouchActive();
-            yield return new WaitForSeconds(1);
-            Couchani.GetComponent<Animator>().Play("LiftSofa");
-            GrabKeyAndExitInstruction.SetActive(true);
-            ExitBed = true;
-            //break
-            yield break;
-        }
+        Player.SetActive(false);
+        flashlight.SetActive(true);
+        FadeInOut.GetComponent<Animator>().Play("DarknessToLightExitBed");
+        LookUnderBedInstruction.SetActive(false);
+        GrabKeyAndExitInstruction.SetActive(true);
+        CamUnderCouchActive();
+        yield return new WaitForSeconds(1);
+        Couchani.GetComponent<Animator>().Play("LiftSofa");
+        SecondCoroutineKey = true;
     }
 
-    private IEnumerator GetKeyGetOutCouch()
+    private IEnumerator GetKeyGetOutSofa()
     {
-        Player.SetActive(true);
-        FadeInOut.GetComponent<Animator>().Play("DarknessToLightExitBed2");
-        //PlayerCameraActive();
-        PlayerCamera.SetActive(true);
-        yield return new WaitForSeconds(0.01f);
-        CamUnderBed.SetActive(false);
-        GrabKeyAndExitInstruction.SetActive(false);
+        Debug.Log("GeyKeyGetOutSofa");
         Key.SetActive(true);
+        Player.SetActive(true);
+        flashlight.SetActive(false);
+        FadeInOut.GetComponent<Animator>().Play("DarknessToLightExitBed");
         GrabKeyAndExitInstruction.SetActive(false);
+        PlayerCameraActive();
+        yield return new WaitForSeconds(1);
         Couchani.GetComponent<Animator>().Play("SofaDown");
-        yield break;
+        ExitBed = true;
     }
+    
+
+    private IEnumerator GoUnderSofaNoKey()
+    {
+        Player.SetActive(false);
+        flashlight.SetActive(true);
+        FadeInOut.GetComponent<Animator>().Play("DarknessToLightExitBed");
+        LookUnderBedInstruction.SetActive(false);
+        NoKeyToBePickedUpInstruction.SetActive(true);
+        CamUnderCouchActive();
+        yield return new WaitForSeconds(1);
+        Couchani.GetComponent<Animator>().Play("LiftSofa");
+        SecondCoroutineNoKey = true;
+    }
+
+    private IEnumerator GetOutSofaNoKey()
+    {
+        Debug.Log("GetOutSofaNoKey");
+        Player.SetActive(true);
+        flashlight.SetActive(false);
+        FadeInOut.GetComponent<Animator>().Play("DarknessToLightExitBed2");
+        NoKeyToBePickedUpInstruction.SetActive(false);
+        PlayerCameraActive();
+        yield return new WaitForSeconds(1);
+        Couchani.GetComponent<Animator>().Play("SofaDown");
+        ExitBed = true;
+        LookUnderBedInstruction.SetActive(false);
+    }
+    
 }
+    #endregion
+
+
