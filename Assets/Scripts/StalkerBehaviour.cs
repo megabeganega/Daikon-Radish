@@ -18,6 +18,8 @@ public class StalkerBehaviour : MonoBehaviour
     private bool EndOfStageOne;
     private bool startStageOne; // will call for the enemy to start teleporting
     public static bool stageonecommence;
+    [SerializeField] private Animator FadeInOut;
+
     #endregion
 
     #region Unity Methods
@@ -81,6 +83,10 @@ public class StalkerBehaviour : MonoBehaviour
         StalkerAtWindow = true;
         yield return new WaitForSeconds(10);
         AllWindowsClosed = false;   
+        //Prevents error where Player can't close window as enemy Teleported to the same place
+        transform.position = new Vector3(1000,10000,1000);
+        //So Tp2 doesn't overide Tp1
+        yield return new WaitForSeconds(1);
         transform.position = stalkerPositions[Random.Range(0,8)];
         //window open in StalkerWindowOpen.cs
         Debug.Log("Waiting for 10 seconds");

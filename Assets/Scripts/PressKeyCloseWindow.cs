@@ -77,8 +77,6 @@ public class PressKeyCloseWindow : MonoBehaviour
     #region CloseWindow 
     void Update()
     {
-        
-    
         if (Input.GetKeyDown(KeyCode.E))
         {
             if (Action == true)
@@ -90,10 +88,10 @@ public class PressKeyCloseWindow : MonoBehaviour
                 Debug.Log("Even Bigger");
                 return;
                 //StalkerWindowOpen.WindowOpened = false;}
-                }
-                
-    }
             }
+                
+        }
+    }
     //While action == true WindowOpened();
 #endregion 
 }
