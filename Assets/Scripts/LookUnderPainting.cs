@@ -22,6 +22,8 @@ public class LookUnderPainting : MonoBehaviour
     // Start is called before the first frame update
     private bool SecondCoroutineNoKey;
     private bool SecondCoroutineKey;
+    public AudioSource GetKeySound;
+
 
     [SerializeField] private Animator FadeInOut;
     [SerializeField] private Animator Paintingani;
@@ -160,6 +162,7 @@ public class LookUnderPainting : MonoBehaviour
         flashlight.SetActive(false);
         FadeInOut.GetComponent<Animator>().Play("DarknessToLightExitBed");
         GrabKeyAndExitInstruction.SetActive(false);
+        GetKeySound.enabled = true;
         PlayerCameraActive();
         yield return new WaitForSeconds(1);
         Paintingani.GetComponent<Animator>().Play("PaintingDown");

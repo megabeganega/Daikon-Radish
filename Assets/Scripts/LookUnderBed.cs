@@ -22,6 +22,8 @@ public class LookUnderBed : MonoBehaviour
     // Start is called before the first frame update
     private bool SecondCoroutineNoKey;
     private bool SecondCoroutineKey;
+    public AudioSource GetKeySound;
+
 
     [SerializeField] private Animator FadeInOut;
     [SerializeField] private Animator Bedani;
@@ -161,6 +163,7 @@ public class LookUnderBed : MonoBehaviour
         FadeInOut.GetComponent<Animator>().Play("DarknessToLightExitBed");
         GrabKeyAndExitInstruction.SetActive(false);
         PlayerCameraActive();
+        GetKeySound.enabled = true;
         yield return new WaitForSeconds(1);
         Bedani.GetComponent<Animator>().Play("BedDown");
         ExitBed = true;

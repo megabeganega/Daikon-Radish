@@ -22,6 +22,7 @@ public class LookUnderSofa : MonoBehaviour
     // Start is called before the first frame update
     private bool SecondCoroutineNoKey;
     private bool SecondCoroutineKey;
+    public AudioSource GetKeySound;
 
     [SerializeField] private Animator FadeInOut;
     [SerializeField] private Animator Couchani;
@@ -161,6 +162,7 @@ public class LookUnderSofa : MonoBehaviour
         FadeInOut.GetComponent<Animator>().Play("DarknessToLightExitBed");
         GrabKeyAndExitInstruction.SetActive(false);
         PlayerCameraActive();
+        GetKeySound.enabled = true;
         yield return new WaitForSeconds(1);
         Couchani.GetComponent<Animator>().Play("SofaDown");
         ExitBed = true;

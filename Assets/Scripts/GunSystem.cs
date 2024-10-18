@@ -31,6 +31,10 @@ public class GunSystem : MonoBehaviour
     public float Magnitude = 2f;
     public float Roughness = 10f;
     public float FadeOutTime = 5f;
+
+    //Sounds
+    public AudioSource GunShootSound;
+    public AudioSource GunReloadSound;
     #endregion
 
     #region Methods
@@ -60,6 +64,9 @@ public class GunSystem : MonoBehaviour
         if (readyToShoot && shooting && !reloading && bulletsLeft > 0){
             bulletsShot = bulletsPerTap;
             Shoot();
+            //Gun SFX Shooting
+            GunShootSound.enabled = true;
+            GunReloadSound.enabled = false;
         }
     }
     private void Shoot()
@@ -109,9 +116,11 @@ public class GunSystem : MonoBehaviour
     private void ResetShot()
     {
         readyToShoot = true;
+        GunShootSound.enabled = false;
     }
     private void Reload()
     {
+        GunReloadSound.enabled = true;
         reloading = true;
         Invoke("ReloadFinished", reloadTime);
     }
