@@ -15,6 +15,8 @@ public class OpenBoxScript : MonoBehaviour
 
     public bool inReach;
     public bool isOpen;
+    public GameObject ChaserStalker;
+    public GameObject WindowStalker;
     #endregion
 
 
@@ -25,6 +27,7 @@ public class OpenBoxScript : MonoBehaviour
         openText.SetActive(false);
         keyMissingText.SetActive(false);
         ShowGun = false;
+        ChaserStalker.SetActive(false);
     }
     #endregion
 
@@ -63,6 +66,8 @@ public class OpenBoxScript : MonoBehaviour
             keyMissingText.SetActive(false);
             isOpen = true;
             ShowGun = true;
+            ChaserStalker.SetActive(true);
+            WindowStalker.SetActive(false);
         }
         //doesn't unlock, key is missing
         else if (keyOBNeeded.activeInHierarchy == false && inReach && Input.GetButtonDown("Interact"))

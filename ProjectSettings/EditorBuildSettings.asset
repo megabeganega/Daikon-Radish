@@ -6,12 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Jumpscare.unity
-    guid: 95b404ed42a600d469917708d3066d9d
+    path: Assets/Scenes/MainMenu.unity
+    guid: 29e21c96782ccbb479760e2ddcc3922e
   - enabled: 1
     path: Assets/Scenes/Game.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
-    guid: 29e21c96782ccbb479760e2ddcc3922e
+    path: Assets/Scenes/Jumpscare.unity
+    guid: 95b404ed42a600d469917708d3066d9d
+  - enabled: 1
+    path: Assets/Scenes/GameWon.unity
+    guid: f1eb295d2098f5645876ba234f7ab304
   m_configObjects: {}

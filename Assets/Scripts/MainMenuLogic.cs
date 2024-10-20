@@ -9,6 +9,7 @@ public class MainMenuLogic : MonoBehaviour
     private GameObject mainMenu;
     private GameObject optionsMenu;
     private GameObject loading; 
+    private GameObject instructionsMenu;
 
     public AudioSource buttonSound;
     #endregion
@@ -18,11 +19,13 @@ public class MainMenuLogic : MonoBehaviour
         mainMenu = GameObject.Find("MainMenuCanvas");
         optionsMenu = GameObject.Find("OptionsCanvas");
         loading = GameObject.Find("LoadingCanvas");
+        instructionsMenu = GameObject.Find("InstructionsCanvas");
 
         //sets main menu to default scene
         mainMenu.GetComponent<Canvas>().enabled = true;
         optionsMenu.GetComponent<Canvas>().enabled = false;
         loading.GetComponent<Canvas>().enabled = false;
+        instructionsMenu.GetComponent<Canvas>().enabled = false;
     }
     #endregion
     #region Methods
@@ -53,6 +56,13 @@ public class MainMenuLogic : MonoBehaviour
         buttonSound.Play();
         mainMenu.GetComponent<Canvas>().enabled = true;
         optionsMenu.GetComponent<Canvas>().enabled = false;
+    }
+
+    public void InstructionsMenuButton()
+    {
+        buttonSound.Play();
+        mainMenu.GetComponent<Canvas>().enabled = false;
+        instructionsMenu.GetComponent<Canvas>().enabled = true;
     }
     #endregion
 }

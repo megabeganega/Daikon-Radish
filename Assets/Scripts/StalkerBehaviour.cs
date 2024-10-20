@@ -15,10 +15,11 @@ public class StalkerBehaviour : MonoBehaviour
     private float timeRemaining;
     private bool AllWindowsClosed;
     private bool StalkerAtWindow;
-    private bool EndOfStageOne;
+    public bool EndOfStageOne;
     private bool startStageOne; // will call for the enemy to start teleporting
     public static bool stageonecommence;
     [SerializeField] private Animator FadeInOut;
+    public GameObject KeyInstructionsAndLocations;
 
     #endregion
 
@@ -29,6 +30,7 @@ public class StalkerBehaviour : MonoBehaviour
         StalkerAtWindow = false;
         EndOfStageOne = false;
         stageonecommence = false;
+        KeyInstructionsAndLocations.SetActive(false);
     }
 
     // subscribing to events
@@ -76,6 +78,7 @@ public class StalkerBehaviour : MonoBehaviour
         StalkerAtWindow = false;
         StopCoroutine("TeleportToRandomWindowRoutine");
         stageonecommence = false;
+        StartCoroutine(KeyInstructions());
     }
 
     private IEnumerator TeleportToRandomWindowRoutine(){
@@ -103,6 +106,13 @@ public class StalkerBehaviour : MonoBehaviour
             SceneManager.LoadScene(scenename);
         
         }
+
+    private IEnumerator KeyInstructions()
+    {
+        KeyInstructionsAndLocations.SetActive(true);
+        yield return new WaitForSeconds(15);
+        KeyInstructionsAndLocations.SetActive(false);
+    }
     }
     
    

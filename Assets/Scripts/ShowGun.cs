@@ -7,6 +7,7 @@ public class ShowGun : MonoBehaviour
     public GameObject gun;
     public OpenBoxScript openBoxScript;
     public PickUpSystem pickUpSystem;
+    private bool GunShown;
 
     void Start()
     {
@@ -14,20 +15,28 @@ public class ShowGun : MonoBehaviour
         pickUpSystem.ItemOnPlayer.SetActive(false);
         gun.SetActive(false);
         pickUpSystem.BulletCount.SetActive(false);
+        GunShown = false;
 
     }
     
     void Update()
     {
+        if (GunShown == true) {return;}
         if (openBoxScript.ShowGun == true)
         {
-            gun.SetActive(true);
+            StartCoroutine(GunShow());
             //If Player is holding Gun, the GunToBePickedUp disappears
-            if (pickUpSystem.ItemOnPlayer.activeSelf == true)
+            if (GunShown == true)
             {
                 gun.SetActive(false);
-                return;
             }
         }
+    }
+
+    private IEnumerator GunShow()
+    {
+        GunShown = true;
+        yield return new WaitForSeconds(2);
+        gun.SetActive(true);
     }
 }

@@ -89,7 +89,7 @@ public class GunSystem : MonoBehaviour
             Debug.Log(rayHit.collider.name);
 
             //Enemy Take Damage system
-            if (rayHit.collider.CompareTag("Enemy"))
+            if (rayHit.collider.CompareTag("ChaserStalker"))
                 rayHit.collider.GetComponent<ShootingAi>().TakeDamage(damage);
         }
 

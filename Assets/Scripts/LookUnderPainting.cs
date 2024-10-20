@@ -135,6 +135,7 @@ public class LookUnderPainting : MonoBehaviour
             }
         if (Input.GetKeyDown(KeyCode.E) && SecondCoroutineKey)
             {
+                GetKeySound.enabled = true;
                 StartCoroutine(GetKeyGetOutPainting());
             }
     }
@@ -151,18 +152,21 @@ public class LookUnderPainting : MonoBehaviour
         CamBehindPaintingActive();
         yield return new WaitForSeconds(1);
         Paintingani.GetComponent<Animator>().Play("LiftPainting");
+        //So Player can't mash button and skip cutscene
+        yield return new WaitForSeconds(1.2f);
         SecondCoroutineKey = true;
     }
 
     private IEnumerator GetKeyGetOutPainting()
     {
+         //Prevents player mashing E so that animation sequence plays again
+        ExitBed = true;
         Debug.Log("GeyKeyGetOutPainting");
         Key.SetActive(true);
         Player.SetActive(true);
         flashlight.SetActive(false);
         FadeInOut.GetComponent<Animator>().Play("DarknessToLightExitBed");
         GrabKeyAndExitInstruction.SetActive(false);
-        GetKeySound.enabled = true;
         PlayerCameraActive();
         yield return new WaitForSeconds(1);
         Paintingani.GetComponent<Animator>().Play("PaintingDown");
@@ -180,11 +184,15 @@ public class LookUnderPainting : MonoBehaviour
         CamBehindPaintingActive();
         yield return new WaitForSeconds(1);
         Paintingani.GetComponent<Animator>().Play("LiftPainting");
+        //So Player can't mash button and skip cutscene
+        yield return new WaitForSeconds(1.2f);
         SecondCoroutineNoKey = true;
     }
 
     private IEnumerator GetOutPaintingNoKey()
     {
+         //Prevents player mashing E so that animation sequence plays again
+        ExitBed = true;
         Debug.Log("GetOutPaintingNoKey");
         Player.SetActive(true);
         flashlight.SetActive(false);

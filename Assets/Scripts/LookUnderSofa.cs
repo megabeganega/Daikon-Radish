@@ -134,6 +134,7 @@ public class LookUnderSofa : MonoBehaviour
             }
         if (Input.GetKeyDown(KeyCode.E) && SecondCoroutineKey)
             {
+                GetKeySound.enabled = true;
                 StartCoroutine(GetKeyGetOutSofa());
             }
     }
@@ -150,11 +151,15 @@ public class LookUnderSofa : MonoBehaviour
         CamUnderCouchActive();
         yield return new WaitForSeconds(1);
         Couchani.GetComponent<Animator>().Play("LiftSofa");
+        //So Player can't mash button and skip cutscene
+        yield return new WaitForSeconds(1.2f);
         SecondCoroutineKey = true;
     }
 
     private IEnumerator GetKeyGetOutSofa()
     {
+         //Prevents player mashing E so that animation sequence plays again
+        ExitBed = true;
         Debug.Log("GeyKeyGetOutSofa");
         Key.SetActive(true);
         Player.SetActive(true);
@@ -162,7 +167,6 @@ public class LookUnderSofa : MonoBehaviour
         FadeInOut.GetComponent<Animator>().Play("DarknessToLightExitBed");
         GrabKeyAndExitInstruction.SetActive(false);
         PlayerCameraActive();
-        GetKeySound.enabled = true;
         yield return new WaitForSeconds(1);
         Couchani.GetComponent<Animator>().Play("SofaDown");
         ExitBed = true;
@@ -179,11 +183,15 @@ public class LookUnderSofa : MonoBehaviour
         CamUnderCouchActive();
         yield return new WaitForSeconds(1);
         Couchani.GetComponent<Animator>().Play("LiftSofa");
+        //So Player can't mash button and skip cutscene
+        yield return new WaitForSeconds(1.2f);
         SecondCoroutineNoKey = true;
     }
 
     private IEnumerator GetOutSofaNoKey()
     {
+        //Prevents player mashing E so that animation sequence plays again
+        ExitBed = true;
         Debug.Log("GetOutSofaNoKey");
         Player.SetActive(true);
         flashlight.SetActive(false);

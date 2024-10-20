@@ -135,6 +135,7 @@ public class LookUnderBed : MonoBehaviour
             }
         if (Input.GetKeyDown(KeyCode.E) && SecondCoroutineKey)
             {
+                GetKeySound.enabled = true;
                 StartCoroutine(GetKeyGetOutBed());
             }
     }
@@ -151,11 +152,15 @@ public class LookUnderBed : MonoBehaviour
         CamUnderBedActive();
         yield return new WaitForSeconds(1);
         Bedani.GetComponent<Animator>().Play("LiftBed");
+        //So Player can't mash button and skip cutscene
+        yield return new WaitForSeconds(1.2f);
         SecondCoroutineKey = true;
     }
 
     private IEnumerator GetKeyGetOutBed()
     {
+         //Prevents player mashing E so that animation sequence plays again
+        ExitBed = true;
         Debug.Log("GeyKeyGetOutBed");
         Key.SetActive(true);
         Player.SetActive(true);
@@ -163,7 +168,6 @@ public class LookUnderBed : MonoBehaviour
         FadeInOut.GetComponent<Animator>().Play("DarknessToLightExitBed");
         GrabKeyAndExitInstruction.SetActive(false);
         PlayerCameraActive();
-        GetKeySound.enabled = true;
         yield return new WaitForSeconds(1);
         Bedani.GetComponent<Animator>().Play("BedDown");
         ExitBed = true;
@@ -180,11 +184,15 @@ public class LookUnderBed : MonoBehaviour
         CamUnderBedActive();
         yield return new WaitForSeconds(1);
         Bedani.GetComponent<Animator>().Play("LiftBed");
+        //So Player can't mash button and skip cutscene
+        yield return new WaitForSeconds(1.2f);
         SecondCoroutineNoKey = true;
     }
 
     private IEnumerator GetOutBedNoKey()
     {
+         //Prevents player mashing E so that animation sequence plays again
+        ExitBed = true;
         Debug.Log("GetOutBedNoKey");
         Player.SetActive(true);
         flashlight.SetActive(false);
