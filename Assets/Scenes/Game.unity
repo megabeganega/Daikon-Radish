@@ -21199,7 +21199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80ad95ba389d4e24084dd2d7c31d92e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstStageTime: 1
+  firstStageTime: 120
   stalkerPositions:
   - {x: -2.07, y: -2.4, z: -14.64}
   - {x: 2.25, y: -2.4, z: -14.64}

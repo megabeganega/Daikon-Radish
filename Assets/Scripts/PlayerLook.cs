@@ -15,14 +15,13 @@ public class PlayerLook : MonoBehaviour
    
     #region Mouse Movement
     //Basic Mouse Movement
-    void Update()
-    {
-        Vector2 MouseInput = new Vector2 
-        {
+    void Update(){
+        Vector2 MouseInput = new Vector2{
             x = Input.GetAxis("Mouse X"),    
             y = Input.GetAxis("Mouse Y")
         };
 
+        //Mouse Sensitivity in inspector is timsed by the mouse;s input
         XYRotation.x -= MouseInput.y * Sensitivities.y;
         XYRotation.y += MouseInput.x * Sensitivities.x;
 

@@ -18,13 +18,12 @@ public class NewBehaviourScript : MonoBehaviour
     #endregion
 
     #region Unity Methods
-    private void Start()
-    {      
+    private void Start(){
+        //Sets Controller to Character Controller Component
         Controller = GetComponent<CharacterController>();
     }
 
-    private void FixedUpdate()
-    {
+    private void FixedUpdate(){
         PlayerMovement();
         PlayerJump();
     }
@@ -33,19 +32,18 @@ public class NewBehaviourScript : MonoBehaviour
     #region Movement Methods
     // gets the player input and then moves the player
     private void PlayerMovement(){
-        Vector3 PlayerInput = new Vector3
-        {
+        Vector3 PlayerInput = new Vector3{
             x = Input.GetAxisRaw("Horizontal"),
             y = 0f,
             z = Input.GetAxisRaw("Vertical")    
         };
 
-        if (PlayerInput.magnitude > 1f)
-        {
+        if(PlayerInput.magnitude > 1f){
             PlayerInput.Normalize();
         }
 
         Vector3 MoveVector = transform.TransformDirection(PlayerInput); 
+        //Running by Left Shift
         float CurrentSpeed = Input.GetKey(KeyCode.LeftShift) ? RunSpeed : WalkSpeed;
 
         CurrentMoveVelocity = Vector3.SmoothDamp(
@@ -58,20 +56,20 @@ public class NewBehaviourScript : MonoBehaviour
         Controller.Move(CurrentMoveVelocity * Time.deltaTime);
     }
 
-    // allows the player to jump
     private void PlayerJump(){
+        // allows the player to jump
         Ray groundCheckRay = new Ray (transform.position, Vector3.down);
-        if (Physics.Raycast(groundCheckRay, 1.25f))
-        {
+        //Checks If Player Is Grounded
+        if(Physics.Raycast(groundCheckRay, 1.25f)){
             CurrentForceVelocity.y = -2f;
 
-            if (Input.GetKey(KeyCode.Space))
-            {
+            if(Input.GetKey(KeyCode.Space)){
+                //Checks If Player Inputs Space
                 CurrentForceVelocity.y = JumpStrength;
             }
         }
-        else
-        {
+        else{
+            //Gravity
             CurrentForceVelocity.y -= GravityStrength * Time.deltaTime;
         }
 
