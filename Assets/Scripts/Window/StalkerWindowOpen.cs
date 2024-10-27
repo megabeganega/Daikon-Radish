@@ -7,7 +7,6 @@ public class StalkerWindowOpen : MonoBehaviour
 {
     #region Variables
     // event
-
     public GameObject AnimeObject;
     public GameObject ThisTrigger;
     public bool StalkerAction = false;
@@ -23,15 +22,12 @@ public class StalkerWindowOpen : MonoBehaviour
         WindowOpened = false;
     }
 
-    void OnTriggerEnter(Collider collision)
-    {
+    void OnTriggerEnter(Collider collision){
         //Collider detects Player
-        if (collision.transform.tag == "Enemy")
-        {
+        if(collision.transform.tag == "Enemy"){
             StalkerOpened = false;
             //Maybe Add An IE Numerator here so it can loop idk.
-            if (StalkerOpened == false) 
-            {
+            if(StalkerOpened == false){
             OpenWindow();
             }
         }
@@ -40,8 +36,7 @@ public class StalkerWindowOpen : MonoBehaviour
 
     #region window close
     //Press E = Window close
-    public void OpenWindow()
-    {
+    public void OpenWindow(){
         WindowOpened = true; 
         AnimeObject.GetComponent<Animator>().Play("WindowOpen");
         ThisTrigger.SetActive(true);

@@ -28,8 +28,7 @@ public class LookUnderSofa : MonoBehaviour
     [SerializeField] private Animator Couchani;
     #endregion
     #region Methods
-    void Start()
-    {
+    void Start(){
         SecondCoroutineKey = false;
         SecondCoroutineNoKey = false;
         KeyToBePickedUp = false;
@@ -40,6 +39,7 @@ public class LookUnderSofa : MonoBehaviour
         GrabKeyAndExitInstruction.SetActive(false);
         Player.SetActive(true);
         LookUnderBedInstruction.SetActive(false);
+        //Player Camera true on start
         PlayerCamera.SetActive(true);
         CamUnderBed.SetActive(false);
         ReachBed = false;
@@ -48,55 +48,43 @@ public class LookUnderSofa : MonoBehaviour
     }
 
 
-    private void OnTriggerStay(Collider other)
-    {
+    private void OnTriggerStay(Collider other){
         //KeyToBePickedUp = true, if there is KeyToBePickedUp
-        if (other.gameObject.tag == "KeyToBePickedUp")
-        {
+        if(other.gameObject.tag == "KeyToBePickedUp"){
             KeyToBePickedUp = true;
         }
         //Prevents Player from lifting object if they already have key
-        if (!ExitBed && Key.activeSelf == false)
-        {
-            if(other.gameObject.tag == "Reach")
-            {
+        if(!ExitBed && Key.activeSelf == false){
+            if(other.gameObject.tag == "Reach"){
                 //enters trigger shows instructions
                 LookUnderBedInstruction.SetActive(true);
                 ReachBed = true;
                 //Coroutine start when ExitBed == false, So Coroutine Can't Be Repeated again
-                if (ExitBed == false && Input.GetKeyDown(KeyCode.E) && !KeyToBePickedUp)
-                {
-                    Debug.Log("GoUnderSofaNoKey");
+                if(ExitBed == false && Input.GetKeyDown(KeyCode.E) && !KeyToBePickedUp){
                     StartCoroutine(GoUnderSofaNoKey());
                 }
-                if (ExitBed == false && Input.GetKeyDown(KeyCode.E) && KeyToBePickedUp)
-                {
+                if(ExitBed == false && Input.GetKeyDown(KeyCode.E) && KeyToBePickedUp){
                     //Different Coroutine started when there is a Key to be picked up
-                    Debug.Log("GoUnderSofaKey");
                     StartCoroutine(GoUnderSofaKey());
                 }
             }
         }
     }
 
-     private void OnTriggerExit(Collider other)
-    {
+    private void OnTriggerExit(Collider other){
         //Pick Up Instructions Disappear After Exiting Collider
         LookUnderBedInstruction.SetActive(false);
         ReachBed = false;
-       
     }
     //Appropriate Cameras Set True/False
-    void CamUnderBedActive()
-    {
+    void CamUnderBedActive(){
         CamUnderBed.SetActive(true);
         CamBehindPainting.SetActive(false);
         CamUnderCouch.SetActive(false);
         PlayerCamera.SetActive(false);
     }
 
-    void CamBehindPaintingActive()
-    {
+    void CamBehindPaintingActive(){
         CamUnderBed.SetActive(false);
         CamBehindPainting.SetActive(true);
         CamUnderCouch.SetActive(false);
@@ -104,16 +92,14 @@ public class LookUnderSofa : MonoBehaviour
     }
 
 
-    void CamUnderCouchActive()
-    {
+    void CamUnderCouchActive(){
         CamUnderBed.SetActive(false);
         CamBehindPainting.SetActive(false);
         CamUnderCouch.SetActive(true);
         PlayerCamera.SetActive(false);
     }
 
-    void PlayerCameraActive()
-    {
+    void PlayerCameraActive(){
         PlayerCamera.SetActive(true);
         CamUnderBed.SetActive(false);
         CamBehindPainting.SetActive(false);
@@ -123,26 +109,22 @@ public class LookUnderSofa : MonoBehaviour
 
 
     #region Update
-    void Update()
-    {
+    void Update(){
         //returns if ExitBed = true Avoids Repeats of the Second Coroutine
-        if (ExitBed) {return;}
+        if(ExitBed){return;}
         //GetKeyDown avoids multiple Coroutines from starting
-        if (Input.GetKeyDown(KeyCode.E) && SecondCoroutineNoKey)
-            {
-                StartCoroutine(GetOutSofaNoKey());
-            }
-        if (Input.GetKeyDown(KeyCode.E) && SecondCoroutineKey)
-            {
-                GetKeySound.enabled = true;
-                StartCoroutine(GetKeyGetOutSofa());
-            }
+        if(Input.GetKeyDown(KeyCode.E) && SecondCoroutineNoKey){
+            StartCoroutine(GetOutSofaNoKey());
+        }
+        if(Input.GetKeyDown(KeyCode.E) && SecondCoroutineKey){
+            GetKeySound.enabled = true;
+            StartCoroutine(GetKeyGetOutSofa());
+        }
     }
 
     #endregion
     #region IEnumerator
-    private IEnumerator GoUnderSofaKey()
-    {
+    private IEnumerator GoUnderSofaKey(){
         Player.SetActive(false);
         flashlight.SetActive(true);
         FadeInOut.GetComponent<Animator>().Play("DarknessToLightExitBed");
@@ -156,11 +138,9 @@ public class LookUnderSofa : MonoBehaviour
         SecondCoroutineKey = true;
     }
 
-    private IEnumerator GetKeyGetOutSofa()
-    {
+    private IEnumerator GetKeyGetOutSofa(){
          //Prevents player mashing E so that animation sequence plays again
         ExitBed = true;
-        Debug.Log("GeyKeyGetOutSofa");
         Key.SetActive(true);
         Player.SetActive(true);
         flashlight.SetActive(false);
@@ -173,8 +153,7 @@ public class LookUnderSofa : MonoBehaviour
     }
     
 
-    private IEnumerator GoUnderSofaNoKey()
-    {
+    private IEnumerator GoUnderSofaNoKey(){
         Player.SetActive(false);
         flashlight.SetActive(true);
         FadeInOut.GetComponent<Animator>().Play("DarknessToLightExitBed");
@@ -188,11 +167,9 @@ public class LookUnderSofa : MonoBehaviour
         SecondCoroutineNoKey = true;
     }
 
-    private IEnumerator GetOutSofaNoKey()
-    {
+    private IEnumerator GetOutSofaNoKey(){
         //Prevents player mashing E so that animation sequence plays again
         ExitBed = true;
-        Debug.Log("GetOutSofaNoKey");
         Player.SetActive(true);
         flashlight.SetActive(false);
         FadeInOut.GetComponent<Animator>().Play("DarknessToLightExitBed2");
@@ -203,7 +180,6 @@ public class LookUnderSofa : MonoBehaviour
         ExitBed = true;
         LookUnderBedInstruction.SetActive(false);
     }
-    
 }
     #endregion
 

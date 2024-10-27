@@ -14,8 +14,7 @@ public class MainMenuLogic : MonoBehaviour
     public AudioSource buttonSound;
     #endregion
     #region Start
-    void Start()
-    {
+    void Start(){
         mainMenu = GameObject.Find("MainMenuCanvas");
         optionsMenu = GameObject.Find("OptionsCanvas");
         loading = GameObject.Find("LoadingCanvas");
@@ -30,36 +29,35 @@ public class MainMenuLogic : MonoBehaviour
     #endregion
     #region Methods
     //Button SFX + Scene enabled/disabled
-    public void StartButton()
-    {
+    public void StartButton(){
         loading.GetComponent<Canvas>().enabled = true;
         mainMenu.GetComponent<Canvas>().enabled = false;
         buttonSound.Play();
         SceneManager.LoadScene("Game");
     }
 
-    public void OptionsButton()
-    {
+    public void OptionsButton(){
+        //Goes to Options
         buttonSound.Play();
         mainMenu.GetComponent<Canvas>().enabled = false;
         optionsMenu.GetComponent<Canvas>().enabled = true;
     }
 
-    public void ExitGameButton()
-    {
+    public void ExitGameButton(){
+        //Exits Game
         buttonSound.Play();
         Application.Quit();
     }
 
-    public void ReturnToMainMenuButton()
-    {
+    public void ReturnToMainMenuButton(){
+        //Returns to Main Menu
         buttonSound.Play();
         mainMenu.GetComponent<Canvas>().enabled = true;
         optionsMenu.GetComponent<Canvas>().enabled = false;
     }
 
-    public void InstructionsMenuButton()
-    {
+    public void InstructionsMenuButton(){
+        //Intrustctions
         buttonSound.Play();
         mainMenu.GetComponent<Canvas>().enabled = false;
         instructionsMenu.GetComponent<Canvas>().enabled = true;

@@ -12,18 +12,15 @@ public class EnemyLook : MonoBehaviour
     #endregion
     #region Methods
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start(){
         playerpos = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update(){
         dist = Vector3.Distance(playerpos.position, transform.position);
         //if player is within range of enemy
-        if(dist <= howclose)
-        {
+        if(dist <= howclose){
             //looks at player
             transform.LookAt(player.transform);
         }

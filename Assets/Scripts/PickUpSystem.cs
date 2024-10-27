@@ -11,22 +11,19 @@ public class PickUpSystem : MonoBehaviour
     #endregion
     // Start is called before the first frame update
     #region Methods
-    void Start()
-    {
+    void Start(){
+        //Sets Bullet Count To False so that it doesn't show up when it shouldn't
         BulletCount.SetActive(false);
         ItemOnPlayer.SetActive(false);
         PickupText.SetActive(false);
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        if(other.gameObject.tag == "Reach")
-        {
+    private void OnTriggerStay(Collider other){
+        if(other.gameObject.tag == "Reach"){
             //enters trigger shows instructions
             PickupText.SetActive(true);
             //Press E in Trigger = Pick Up item
-            if(Input.GetKey(KeyCode.E))
-            {
+            if(Input.GetKey(KeyCode.E)){
                 this.gameObject.SetActive(false);
                 ItemOnPlayer.SetActive(true);
                 PickupText.SetActive(false);
@@ -35,10 +32,10 @@ public class PickUpSystem : MonoBehaviour
         }
     } 
 
-    private void OnTriggerExit(Collider other)
-    {
+    private void OnTriggerExit(Collider other){
         //Pick Up Instructions Disappear After Exiting Collider
         PickupText.SetActive(false);
     }
-}
     #endregion
+}
+    

@@ -38,30 +38,25 @@ public class GunSystem : MonoBehaviour
     #endregion
 
     #region Methods
-    private void Awake()
-    {
+    private void Awake(){
         bulletsLeft = magazineSize;
         readyToShoot = true;
     }
-    private void Update()
-    {
+    private void Update(){
         MyInput();
-
 
         //SetText
         text.SetText(bulletsLeft + " / " + magazineSize);
     }
-    private void MyInput()
-    {
-        if (allowButtonHold) shooting = Input.GetKey(KeyCode.Mouse0);
+    private void MyInput(){
+        if(allowButtonHold) shooting = Input.GetKey(KeyCode.Mouse0);
         else shooting = Input.GetKeyDown(KeyCode.Mouse0);
 
-
-        if (Input.GetKeyDown(KeyCode.R) && bulletsLeft < magazineSize && !reloading) Reload();
+        if(Input.GetKeyDown(KeyCode.R) && bulletsLeft < magazineSize && !reloading) Reload();
 
 
         //Shoot
-        if (readyToShoot && shooting && !reloading && bulletsLeft > 0){
+        if(readyToShoot && shooting && !reloading && bulletsLeft > 0){
             bulletsShot = bulletsPerTap;
             Shoot();
             //Gun SFX Shooting
@@ -69,8 +64,7 @@ public class GunSystem : MonoBehaviour
             GunReloadSound.enabled = false;
         }
     }
-    private void Shoot()
-    {
+    private void Shoot(){
         readyToShoot = false;
 
 
@@ -84,12 +78,11 @@ public class GunSystem : MonoBehaviour
 
 
         //RayCast
-        if (Physics.Raycast(fpsCam.transform.position, direction, out rayHit, range, whatIsEnemy))
-        {
+        if(Physics.Raycast(fpsCam.transform.position, direction, out rayHit, range, whatIsEnemy)){
             Debug.Log(rayHit.collider.name);
 
             //Enemy Take Damage system
-            if (rayHit.collider.CompareTag("ChaserStalker"))
+            if(rayHit.collider.CompareTag("ChaserStalker"))
                 rayHit.collider.GetComponent<ShootingAi>().TakeDamage(damage);
         }
 
@@ -113,19 +106,19 @@ public class GunSystem : MonoBehaviour
         if(bulletsShot > 0 && bulletsLeft > 0)
         Invoke("Shoot", timeBetweenShots);
     }
-    private void ResetShot()
-    {
+    private void ResetShot(){
+        //ResetShot
         readyToShoot = true;
         GunShootSound.enabled = false;
     }
-    private void Reload()
-    {
+    private void Reload(){
+        //Reload
         GunReloadSound.enabled = true;
         reloading = true;
         Invoke("ReloadFinished", reloadTime);
     }
-    private void ReloadFinished()
-    {
+    private void ReloadFinished(){
+        //After Reloading
         bulletsLeft = magazineSize;
         reloading = false;
     }

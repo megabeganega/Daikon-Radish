@@ -21,8 +21,8 @@ public class OpenBoxScript : MonoBehaviour
 
 
     #region Start
-    void Start()
-    {
+    void Start(){
+        //Sets all variables bools etc false
         inReach = false;
         openText.SetActive(false);
         keyMissingText.SetActive(false);
@@ -32,20 +32,17 @@ public class OpenBoxScript : MonoBehaviour
     #endregion
 
     #region ColliderDetection
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "Reach")
-        {
+    void OnTriggerEnter(Collider other){
+        //If collides with Player Reach tool, then object is in reach
+        if(other.gameObject.tag == "Reach"){
             inReach = true;
             openText.SetActive(true);
-
         }
     }
 
-    void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "Reach")
-        {
+    void OnTriggerExit(Collider other){
+        //If Exits reach Tool Collider, then object is no longer in reach
+        if(other.gameObject.tag == "Reach"){
             inReach = false;
             openText.SetActive(false);
             keyMissingText.SetActive(false);
@@ -54,11 +51,9 @@ public class OpenBoxScript : MonoBehaviour
     #endregion
 
     #region Update
-    void Update()
-    {
+    void Update(){
         //unlocks
-        if (keyOBNeeded.activeInHierarchy == true && inReach && Input.GetButtonDown("Interact"))
-        {
+        if(keyOBNeeded.activeInHierarchy == true && inReach && Input.GetButtonDown("Interact")){
             keyOBNeeded.SetActive(false);
             openSound.Play();
             boxOB.SetBool("open", true);
@@ -70,14 +65,12 @@ public class OpenBoxScript : MonoBehaviour
             WindowStalker.SetActive(false);
         }
         //doesn't unlock, key is missing
-        else if (keyOBNeeded.activeInHierarchy == false && inReach && Input.GetButtonDown("Interact"))
-        {
+        else if(keyOBNeeded.activeInHierarchy == false && inReach && Input.GetButtonDown("Interact")){
             openText.SetActive(false);
             keyMissingText.SetActive(true);
         }
         //Script is disabled + Collider false
-        if(isOpen)
-        {
+        if(isOpen){
             boxOB.GetComponent<BoxCollider>().enabled = false;
             boxOB.GetComponent<OpenBoxScript>().enabled = false;
         }

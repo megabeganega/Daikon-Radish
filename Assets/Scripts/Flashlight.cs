@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Flashlight : MonoBehaviour
 {
+    #region Variables
     public GameObject flashlight;
 
     public AudioSource turnOn;
@@ -11,39 +12,34 @@ public class Flashlight : MonoBehaviour
 
     public bool on;
     public bool off;
+    #endregion
 
 
 
-
-    void Start()
-    {
+    #region Start
+    void Start(){
         //flashlight off when game start
         off = true;
         flashlight.SetActive(false);
     }
+    #endregion
 
-
-
-
-    void Update()
-    {
+    #region Update
+    void Update(){
         //flashlight input
-        if(off && Input.GetButtonDown("F"))
-        {
+        if(off && Input.GetButtonDown("F")){
             flashlight.SetActive(true);
             turnOn.Play();
             off = false;
             on = true;
         }
-        else if (on && Input.GetButtonDown("F"))
-        {
+        //Turns off if on and pressed F key
+        else if(on && Input.GetButtonDown("F")){
             flashlight.SetActive(false);
             turnOff.Play();
             off = true;
             on = false;
         }
-
-
-
     }
+    #endregion
 }

@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Fullscreen : MonoBehaviour
 {
-    public void Change()
-    {
+    #region Method
+    public void Change(){
     //Changes fullscreen setting
     Screen.fullScreen = !Screen.fullScreen;
     }
+    #endregion
 }

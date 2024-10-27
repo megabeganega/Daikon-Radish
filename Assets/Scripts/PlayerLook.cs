@@ -9,6 +9,7 @@ public class PlayerLook : MonoBehaviour
     [SerializeField] private Transform PlayerCamera;
     [SerializeField] private Vector2 Sensitivities;
 
+    //Mouse Move X And Y
     private Vector2 XYRotation;
     #endregion
 

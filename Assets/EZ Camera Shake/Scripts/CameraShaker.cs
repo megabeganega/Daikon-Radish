@@ -33,31 +33,25 @@ namespace EZCameraShake
 
         List<CameraShakeInstance> cameraShakeInstances = new List<CameraShakeInstance>();
 
-        void Awake()
-        {
+        void Awake(){
             Instance = this;
             instanceList.Add(gameObject.name, this);
         }
 
-        void Update()
-        {
+        void Update(){
             posAddShake = Vector3.zero;
             rotAddShake = Vector3.zero;
 
-            for (int i = 0; i < cameraShakeInstances.Count; i++)
-            {
-                if (i >= cameraShakeInstances.Count)
+            for(int i = 0; i < cameraShakeInstances.Count; i++){
+                if(i >= cameraShakeInstances.Count)
                     break;
-
                 CameraShakeInstance c = cameraShakeInstances[i];
 
-                if (c.CurrentState == CameraShakeState.Inactive && c.DeleteOnInactive)
-                {
+                if(c.CurrentState == CameraShakeState.Inactive && c.DeleteOnInactive){
                     cameraShakeInstances.RemoveAt(i);
                     i--;
                 }
-                else if (c.CurrentState != CameraShakeState.Inactive)
-                {
+                else if(c.CurrentState != CameraShakeState.Inactive){
                     posAddShake += CameraUtilities.MultiplyVectors(c.UpdateShake(), c.PositionInfluence);
                     rotAddShake += CameraUtilities.MultiplyVectors(c.UpdateShake(), c.RotationInfluence);
                 }
@@ -72,11 +66,10 @@ namespace EZCameraShake
         /// </summary>
         /// <param name="name">The name of the camera shaker instance.</param>
         /// <returns></returns>
-        public static CameraShaker GetInstance(string name)
-        {
+        public static CameraShaker GetInstance(string name){
             CameraShaker c;
 
-            if (instanceList.TryGetValue(name, out c))
+            if(instanceList.TryGetValue(name, out c))
                 return c;
 
             Debug.LogError("CameraShake " + name + " not found!");
@@ -89,8 +82,7 @@ namespace EZCameraShake
         /// </summary>
         /// <param name="shake">The preset to use.</param>
         /// <returns>A CameraShakeInstance that can be used to alter the shake's properties.</returns>
-        public CameraShakeInstance Shake(CameraShakeInstance shake)
-        {
+        public CameraShakeInstance Shake(CameraShakeInstance shake){
             cameraShakeInstances.Add(shake);
             return shake;
         }
@@ -103,8 +95,7 @@ namespace EZCameraShake
         /// <param name="fadeInTime">How long to fade in the shake, in seconds.</param>
         /// <param name="fadeOutTime">How long to fade out the shake, in seconds.</param>
         /// <returns>A CameraShakeInstance that can be used to alter the shake's properties.</returns>
-        public CameraShakeInstance ShakeOnce(float magnitude, float roughness, float fadeInTime, float fadeOutTime)
-        {
+        public CameraShakeInstance ShakeOnce(float magnitude, float roughness, float fadeInTime, float fadeOutTime){
             CameraShakeInstance shake = new CameraShakeInstance(magnitude, roughness, fadeInTime, fadeOutTime);
             shake.PositionInfluence = DefaultPosInfluence;
             shake.RotationInfluence = DefaultRotInfluence;
@@ -123,8 +114,7 @@ namespace EZCameraShake
         /// <param name="posInfluence">How much this shake influences position.</param>
         /// <param name="rotInfluence">How much this shake influences rotation.</param>
         /// <returns>A CameraShakeInstance that can be used to alter the shake's properties.</returns>
-        public CameraShakeInstance ShakeOnce(float magnitude, float roughness, float fadeInTime, float fadeOutTime, Vector3 posInfluence, Vector3 rotInfluence)
-        {
+        public CameraShakeInstance ShakeOnce(float magnitude, float roughness, float fadeInTime, float fadeOutTime, Vector3 posInfluence, Vector3 rotInfluence){
             CameraShakeInstance shake = new CameraShakeInstance(magnitude, roughness, fadeInTime, fadeOutTime);
             shake.PositionInfluence = posInfluence;
             shake.RotationInfluence = rotInfluence;
@@ -140,8 +130,7 @@ namespace EZCameraShake
         /// <param name="roughness">Roughness of the shake. Lower values are smoother, higher values are more jarring.</param>
         /// <param name="fadeInTime">How long to fade in the shake, in seconds.</param>
         /// <returns>A CameraShakeInstance that can be used to alter the shake's properties.</returns>
-        public CameraShakeInstance StartShake(float magnitude, float roughness, float fadeInTime)
-        {
+        public CameraShakeInstance StartShake(float magnitude, float roughness, float fadeInTime){
             CameraShakeInstance shake = new CameraShakeInstance(magnitude, roughness);
             shake.PositionInfluence = DefaultPosInfluence;
             shake.RotationInfluence = DefaultRotInfluence;
@@ -159,8 +148,7 @@ namespace EZCameraShake
         /// <param name="posInfluence">How much this shake influences position.</param>
         /// <param name="rotInfluence">How much this shake influences rotation.</param>
         /// <returns>A CameraShakeInstance that can be used to alter the shake's properties.</returns>
-        public CameraShakeInstance StartShake(float magnitude, float roughness, float fadeInTime, Vector3 posInfluence, Vector3 rotInfluence)
-        {
+        public CameraShakeInstance StartShake(float magnitude, float roughness, float fadeInTime, Vector3 posInfluence, Vector3 rotInfluence){
             CameraShakeInstance shake = new CameraShakeInstance(magnitude, roughness);
             shake.PositionInfluence = posInfluence;
             shake.RotationInfluence = rotInfluence;
@@ -175,8 +163,7 @@ namespace EZCameraShake
         public List<CameraShakeInstance> ShakeInstances
         { get { return new List<CameraShakeInstance>(cameraShakeInstances); } }
 
-        void OnDestroy()
-        {
+        void OnDestroy(){
             instanceList.Remove(gameObject.name);
         }
     }

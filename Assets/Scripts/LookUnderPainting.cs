@@ -29,8 +29,7 @@ public class LookUnderPainting : MonoBehaviour
     [SerializeField] private Animator Paintingani;
     #endregion
     #region Methods
-    void Start()
-    {
+    void Start(){
         SecondCoroutineKey = false;
         SecondCoroutineNoKey = false;
         KeyToBePickedUp = false;
@@ -39,8 +38,10 @@ public class LookUnderPainting : MonoBehaviour
         Key.SetActive(false);
         ExitBed = false;
         GrabKeyAndExitInstruction.SetActive(false);
+        //Player Set to true at start
         Player.SetActive(true);
         LookUnderBedInstruction.SetActive(false);
+        //Player Camera Set to True At Start
         PlayerCamera.SetActive(true);
         CamUnderBed.SetActive(false);
         ReachBed = false;
@@ -49,55 +50,43 @@ public class LookUnderPainting : MonoBehaviour
     }
 
 
-    private void OnTriggerStay(Collider other)
-    {
+    private void OnTriggerStay(Collider other){
         //KeyToBePickedUp = true, if there is KeyToBePickedUp
-        if (other.gameObject.tag == "KeyToBePickedUp")
-        {
+        if(other.gameObject.tag == "KeyToBePickedUp"){
             KeyToBePickedUp = true;
         }
         //Prevents Player from lifting object if they already have key
-        if (!ExitBed && Key.activeSelf == false)
-        {
-            if(other.gameObject.tag == "Reach")
-            {
+        if(!ExitBed && Key.activeSelf == false){
+            if(other.gameObject.tag == "Reach"){
                 //enters trigger shows instructions
                 LookUnderBedInstruction.SetActive(true);
                 ReachBed = true;
                 //Coroutine start when ExitBed == false, So Coroutine Can't Be Repeated again
-                if (ExitBed == false && Input.GetKeyDown(KeyCode.E) && !KeyToBePickedUp)
-                {
-                    Debug.Log("GoUnderPaintingNoKey");
+                if(ExitBed == false && Input.GetKeyDown(KeyCode.E) && !KeyToBePickedUp){
                     StartCoroutine(GoUnderPaintingNoKey());
                 }
-                if (ExitBed == false && Input.GetKeyDown(KeyCode.E) && KeyToBePickedUp)
-                {
+                if(ExitBed == false && Input.GetKeyDown(KeyCode.E) && KeyToBePickedUp){
                     //Different Coroutine started when there is a Key to be picked up
-                    Debug.Log("GoUnderPaintingKey");
                     StartCoroutine(GoUnderPaintingKey());
                 }
             }
         }
     }
 
-     private void OnTriggerExit(Collider other)
-    {
+    private void OnTriggerExit(Collider other){
         //Pick Up Instructions Disappear After Exiting Collider
         LookUnderBedInstruction.SetActive(false);
         ReachBed = false;
-       
     }
     //Appropriate Cameras Set True/False
-    void CamUnderBedActive()
-    {
+    void CamUnderBedActive(){
         CamUnderBed.SetActive(true);
         CamBehindPainting.SetActive(false);
         CamUnderCouch.SetActive(false);
         PlayerCamera.SetActive(false);
     }
 
-    void CamBehindPaintingActive()
-    {
+    void CamBehindPaintingActive(){
         CamUnderBed.SetActive(false);
         CamBehindPainting.SetActive(true);
         CamUnderCouch.SetActive(false);
@@ -105,16 +94,14 @@ public class LookUnderPainting : MonoBehaviour
     }
 
 
-    void CamUnderCouchActive()
-    {
+    void CamUnderCouchActive(){
         CamUnderBed.SetActive(false);
         CamBehindPainting.SetActive(false);
         CamUnderCouch.SetActive(true);
         PlayerCamera.SetActive(false);
     }
 
-    void PlayerCameraActive()
-    {
+    void PlayerCameraActive(){
         PlayerCamera.SetActive(true);
         CamUnderBed.SetActive(false);
         CamBehindPainting.SetActive(false);
@@ -124,26 +111,22 @@ public class LookUnderPainting : MonoBehaviour
 
 
     #region Update
-    void Update()
-    {
+    void Update(){
         //returns if ExitBed = true Avoids Repeats of the Second Coroutine
-        if (ExitBed) {return;}
+        if(ExitBed){return;}
         //GetKeyDown avoids multiple Coroutines from starting
-        if (Input.GetKeyDown(KeyCode.E) && SecondCoroutineNoKey)
-            {
-                StartCoroutine(GetOutPaintingNoKey());
-            }
-        if (Input.GetKeyDown(KeyCode.E) && SecondCoroutineKey)
-            {
-                GetKeySound.enabled = true;
-                StartCoroutine(GetKeyGetOutPainting());
-            }
+        if(Input.GetKeyDown(KeyCode.E) && SecondCoroutineNoKey){
+            StartCoroutine(GetOutPaintingNoKey());
+        }
+        if(Input.GetKeyDown(KeyCode.E) && SecondCoroutineKey){
+            GetKeySound.enabled = true;
+            StartCoroutine(GetKeyGetOutPainting());
+        }
     }
 
     #endregion
     #region IEnumerator
-    private IEnumerator GoUnderPaintingKey()
-    {
+    private IEnumerator GoUnderPaintingKey(){
         Player.SetActive(false);
         flashlight.SetActive(true);
         FadeInOut.GetComponent<Animator>().Play("DarknessToLightExitBed");
@@ -157,11 +140,9 @@ public class LookUnderPainting : MonoBehaviour
         SecondCoroutineKey = true;
     }
 
-    private IEnumerator GetKeyGetOutPainting()
-    {
+    private IEnumerator GetKeyGetOutPainting(){
          //Prevents player mashing E so that animation sequence plays again
         ExitBed = true;
-        Debug.Log("GeyKeyGetOutPainting");
         Key.SetActive(true);
         Player.SetActive(true);
         flashlight.SetActive(false);
@@ -174,8 +155,7 @@ public class LookUnderPainting : MonoBehaviour
     }
     
 
-    private IEnumerator GoUnderPaintingNoKey()
-    {
+    private IEnumerator GoUnderPaintingNoKey(){
         Player.SetActive(false);
         flashlight.SetActive(true);
         FadeInOut.GetComponent<Animator>().Play("DarknessToLightExitBed");
@@ -189,8 +169,7 @@ public class LookUnderPainting : MonoBehaviour
         SecondCoroutineNoKey = true;
     }
 
-    private IEnumerator GetOutPaintingNoKey()
-    {
+    private IEnumerator GetOutPaintingNoKey(){
          //Prevents player mashing E so that animation sequence plays again
         ExitBed = true;
         Debug.Log("GetOutPaintingNoKey");

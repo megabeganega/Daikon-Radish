@@ -4,20 +4,17 @@ using UnityEngine;
 
 public class GameWonFadeIn : MonoBehaviour
 {
+    #region Variables
     public Animator DarkSequence;
+    #endregion
     // Start is called before the first frame update
-    void Start()
-    {
+    #region Start
+    void Start(){
         //Shows the mouse again
         Cursor.visible = true;
         //Unlocks Cursors
         Cursor.lockState = CursorLockMode.None;
         DarkSequence.GetComponent<Animator>().Play("DarkSequence1");
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    #endregion
 }

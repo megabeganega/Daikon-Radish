@@ -52,17 +52,14 @@ public class StalkerBehaviour : MonoBehaviour
             StartCoroutine(TeleportToRandomWindowRoutine());
             return;
         }
-
-      //  Debug.Log(timeRemaining);
-        if(timeRemaining >= 0){return;} // returns if fisrt stage is still active
-    //    Debug.Log(timeRemaining);
+        // returns if fisrt stage is still active
+        if(timeRemaining >= 0){return;} 
         EndFirstStage();
     }
     #endregion
 
     #region Stalker Methods
     private void StartFirstStage(){
-        Debug.Log("Start First Stage");
         startStageOne = true;
         AllWindowsClosed = true;
         StalkerAtWindow = false;
@@ -71,7 +68,6 @@ public class StalkerBehaviour : MonoBehaviour
 
 
     private void EndFirstStage(){
-        Debug.Log("End First Stage");
         startStageOne = false;
         EndOfStageOne = true;
         AllWindowsClosed = true;
@@ -82,7 +78,6 @@ public class StalkerBehaviour : MonoBehaviour
     }
 
     private IEnumerator TeleportToRandomWindowRoutine(){
-        Debug.Log("CoroutineStart");
         StalkerAtWindow = true;
         yield return new WaitForSeconds(10);
         AllWindowsClosed = false;   
@@ -92,33 +87,21 @@ public class StalkerBehaviour : MonoBehaviour
         yield return new WaitForSeconds(1);
         transform.position = stalkerPositions[Random.Range(0,8)];
         //window open in StalkerWindowOpen.cs
-        Debug.Log("Waiting for 10 seconds");
         yield return new WaitForSeconds(10);
-        Debug.Log(AllWindowsClosed);
         if(AllWindowsClosed == true){
-            Debug.Log("Stop All Coroutines");
             //resets functions
             yield break;
         }
             //jumpinwindowlogic   
-            Debug.Log("Stalker in Building + Jumpscares");
             //Loads Jumpscare Scene
             SceneManager.LoadScene(scenename);
-        
         }
 
-    private IEnumerator KeyInstructions()
-    {
+    private IEnumerator KeyInstructions(){
+        //Waitisi 10 Seconds
+        yield return new WaitForSeconds(10);
         KeyInstructionsAndLocations.SetActive(true);
-        yield return new WaitForSeconds(15);
-        KeyInstructionsAndLocations.SetActive(false);
     }
-    }
-    
-   
-   // {
-        //Jumpscare Plays    
-    
-
+}
 #endregion
 

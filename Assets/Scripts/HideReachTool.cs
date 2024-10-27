@@ -10,11 +10,10 @@ public class HideReachTool : MonoBehaviour
     #endregion
     
     #region Update
-    void Update()
-    {
+    void Update(){
         //If Gun is in playeres hand, reach tool disappears
-        if (GunInHand.activeSelf == true)
-        {
+        if(GunInHand.activeSelf == true){
+            //Reach Tool is disabled
             ReachTool.SetActive(false);
         }
     }

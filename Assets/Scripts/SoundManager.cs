@@ -10,36 +10,27 @@ public class SoundManager : MonoBehaviour
     #endregion
     // Start is called before the first frame update
     #region Methods
-    void Start()
-    {
+    void Start(){
         //set music volume to 100% with no previous data
-        if(!PlayerPrefs.HasKey("Volume"))
-        {
+        if(!PlayerPrefs.HasKey("Volume")){
             PlayerPrefs.SetFloat("Volume", 1);
             Load(); 
         }
-
-        else
-        {
-            Load();
-        }
+        else{Load();}
     }
 
-    public void ChangeVolume()
-    {
+    public void ChangeVolume(){
         //sets volume to slider ui
         AudioListener.volume = volumeSlider.value;
         Save();
     }
 
-    private void Load()
-    {
+    private void Load(){
         //set volume slider = volume "Key Name"
         volumeSlider.value = PlayerPrefs.GetFloat("Volume");
     }
 
-    private void Save()
-    {
+    private void Save(){
         //saves player volume preference
         PlayerPrefs.SetFloat("Volume", volumeSlider.value);
     }
